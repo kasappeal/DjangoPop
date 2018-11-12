@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -25,6 +26,7 @@ def ad_detail(request, ad_pk):
         return HttpResponse('Ad not found', status=404)
 
 
+@login_required
 def new_ad(request):
 
     if request.method == 'POST':

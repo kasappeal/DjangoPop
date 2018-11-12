@@ -19,6 +19,7 @@
             <a href="{% url 'login' %}">Login</a> |
             <a href="{% url 'register' %}">Register</a>
         {% else %}
+            <a href="{% url 'new_ad' %}">New Ad</a> |
             <a href="{% url 'logout' %}">Logout</a>
         {% endif %}
     </nav>
