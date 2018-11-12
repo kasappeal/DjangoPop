@@ -7,4 +7,4 @@ class AdForm(forms.ModelForm):
 
     class Meta:
         model = Ad
-        fields = '__all__'
+        fields = ['name', 'description', 'price', 'image', 'status']

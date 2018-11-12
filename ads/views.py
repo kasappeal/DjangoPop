@@ -30,7 +30,8 @@ def ad_detail(request, ad_pk):
 def new_ad(request):
 
     if request.method == 'POST':
-        form = AdForm(request.POST, request.FILES)
+        new_ad = Ad(owner=request.user)
+        form = AdForm(request.POST, request.FILES, instance=new_ad)
         if form.is_valid():
             new_ad = form.save()
             messages.success(request, 'Ad {0} created successfully!'.format(new_ad.name))
