@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.generic import DetailView
 
 from ads.forms import AdForm
 from ads.models import Ad
@@ -21,15 +22,10 @@ class HomeView(View):
         return render(request, 'ads/home.html', context)
 
 
-class AdDetailView(View):
+class AdDetailView(DetailView):
 
-    def get(self, request, ad_pk):
-        try:
-            ad = Ad.objects.select_related('owner').get(pk=ad_pk)
-            context = {'ad': ad}
-            return render(request, 'ads/ad_detail.html', context)
-        except Ad.DoesNotExist:
-            return HttpResponse('Ad not found', status=404)
+    model = Ad
+    template_name = 'ads/ad_detail.html'
 
 
 class NewAdView(View):

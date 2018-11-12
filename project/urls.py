@@ -24,7 +24,7 @@ from users.views import LoginView, LogoutView, RegisterView
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('ads/<int:ad_pk>', AdDetailView.as_view(), name='ad_detail'),
+    path('ads/<int:pk>', AdDetailView.as_view(), name='ad_detail'),
     path('ads/new', NewAdView.as_view(), name='new_ad'),
 
     path('login', LoginView.as_view(), name='login'),
