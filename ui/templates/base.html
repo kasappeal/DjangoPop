@@ -1,8 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block head_title %} Django Pop {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     <style>
         .ad { display: inline-block; }
         .ad img { display:block; height: 250px; }
