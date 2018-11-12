@@ -7,6 +7,7 @@ from ads.models import Ad
 @admin.register(Ad)
 class AdAdmin(admin.ModelAdmin):
 
+    readonly_fields = ['pub_date', 'last_modification', 'image_tag']
     list_display = ['image_tag', 'name', 'price', 'owner_fullname', 'status', 'formatted_pub_date',
                     'formatted_last_modification']
     list_filter = ['status', 'owner']
@@ -35,3 +36,17 @@ class AdAdmin(admin.ModelAdmin):
 
     formatted_last_modification.short_description = 'Las modification date'
     formatted_last_modification.admin_order_field = 'last_modification'
+
+    fieldsets = [
+        [None, {
+            'fields': ['image_tag', 'name', 'price']
+        }],
+        ['Ad info', {
+            'fields': ['owner', 'image', 'status', 'description'],
+            'description': 'Info related with owner and more...',
+        }],
+        ['Important dates', {
+            'fields': ['pub_date', 'last_modification'],
+            'classes': ['collapse']
+        }]
+    ]
