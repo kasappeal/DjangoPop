@@ -16,20 +16,10 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
-
-from ads.views import HomeView, AdDetailView, NewAdView
-from users.views import LoginView, LogoutView, RegisterView
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    path('ads/<int:pk>', AdDetailView.as_view(), name='ad_detail'),
-    path('ads/new', NewAdView.as_view(), name='new_ad'),
-
-    path('login', LoginView.as_view(), name='login'),
-    path('logout', LogoutView.as_view(), name='logout'),
-    path('register', RegisterView.as_view(), name='register'),
-
-    path('', HomeView.as_view(), name='home')
+    path('', include('ads.urls')),
+    path('', include('users.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
