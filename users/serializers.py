@@ -27,3 +27,14 @@ class UserSerializer(UserListSerializer):
         instance.set_password(validated_data.get('password'))
         instance.save()
         return instance
+
+    def validate_username(self, value):
+        # validacion si estoy actualizando un usuario
+        if self.instance is not None and self.instance.username != value and User.objects.filter(username=value).exists():
+            raise serializers.ValidationError('Username {0} already exists'.format(value))
+
+        # validacion si estoy creando un usuario
+        if self.instance is None and User.objects.filter(username=value).exists():
+            raise serializers.ValidationError('Username {0} already exists'.format(value))
+
+        return value
