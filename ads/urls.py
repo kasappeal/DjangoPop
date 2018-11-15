@@ -1,7 +1,12 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
-from ads.api import AdListAPIView, AdDetailAPIView
+from ads.api import AdViewSet
 from ads.views import HomeView, AdDetailView, NewAdView
+
+
+router = DefaultRouter()
+router.register('ads', AdViewSet)
 
 urlpatterns = [
     path('ads/<int:pk>', AdDetailView.as_view(), name='ad_detail'),
@@ -9,6 +14,5 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
 
     # API
-    path('api/1.0/ads/', AdListAPIView.as_view(), name='ad_list_api'),
-    path('api/1.0/ads/<int:pk>', AdDetailAPIView.as_view(), name='ad_detail_api')
+    path('api/1.0/', include(router.urls)),
 ]
