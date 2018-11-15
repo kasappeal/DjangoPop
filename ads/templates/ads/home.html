@@ -5,12 +5,14 @@
 {% block main_body %}
     <p>Sell everything that you don't need!</p>
     <hr>
-    {% for ad in ads %}
-        <a href="{% url 'ad_detail' ad.pk %}" class="ad">
-            <img src="{{ ad.image.url }}" alt="{{ ad.name }}" title="{{ ad.name }}">
-            <strong>{{ ad.name }} ({{ ad.get_status_display }})</strong>
-            <em>{{ ad.price|floatformat:2 }} €</em>
-            sold by {{ ad.owner.first_name }} {{ ad.owner.last_name }}
-        </a>
-    {% endfor %}
+    <div class="ads">
+        {% for ad in ads %}
+            <a href="{% url 'ad_detail' ad.pk %}" class="ad">
+                <img src="{{ ad.image.url }}" alt="{{ ad.name }}" title="{{ ad.name }}">
+                <strong>{{ ad.name }} ({{ ad.get_status_display }})</strong>
+                <em>{{ ad.price|floatformat:2 }} €</em>
+                sold by {{ ad.owner.first_name }} {{ ad.owner.last_name }}
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}

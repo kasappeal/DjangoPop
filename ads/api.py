@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.generics import get_object_or_404
+from rest_framework.generics import get_object_or_404, ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -7,18 +7,12 @@ from ads.models import Ad
 from ads.serializers import AdListSerializer, AdSerializer
 
 
-class AdListAPIView(APIView):
+class AdListAPIView(ListCreateAPIView):
 
-    def get(self, request):
-        ads = Ad.objects.all()
-        serializer = AdListSerializer(ads, many=True)
-        return Response(serializer.data)
+    queryset = Ad.objects.all()
 
-    def post(self, request):
-        serializer = AdSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def get_serializer_class(self):
+        return AdListSerializer if self.request.method == 'GET' else AdSerializer
 
 
 class AdDetailAPIView(APIView):
