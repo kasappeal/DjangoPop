@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import status
-from rest_framework.generics import get_object_or_404
+from rest_framework.generics import get_object_or_404, GenericAPIView
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -9,14 +9,15 @@ from users.permissions import UserPermission
 from users.serializers import UserSerializer, UserListSerializer
 
 
-class UsersListAPIView(APIView):
+class UsersListAPIView(GenericAPIView):
 
     permission_classes = [UserPermission]
 
     def get(self, request):
         users = User.objects.all()
-        serializer = UserListSerializer(users, many=True)
-        return Response(serializer.data)
+        queryset = self.paginate_queryset(users)
+        serializer = UserListSerializer(queryset, many=True)
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
