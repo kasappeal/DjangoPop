@@ -1,3 +1,4 @@
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet
 
@@ -10,6 +11,9 @@ class AdViewSet(ModelViewSet):
 
     queryset = Ad.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly, AdPermission]
+    filter_backends = [OrderingFilter, SearchFilter]
+    search_fields = ['name', 'description', 'owner__first_name', 'owner__last_name']
+    ordering = ['id', 'price', 'status', 'name', 'pub_date', 'last_modification']
 
     def get_queryset(self):
         return self.queryset if self.request.user.is_authenticated else self.queryset.filter(status=Ad.PUBLISHED)
