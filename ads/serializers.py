@@ -14,4 +14,6 @@ class AdListSerializer(serializers.ModelSerializer):
 class AdSerializer(AdListSerializer):
 
     class Meta(AdListSerializer.Meta):
+
         fields = '__all__'
+        read_only_fields = ['owner']
