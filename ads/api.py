@@ -2,6 +2,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from ads.models import Ad
+from ads.permissions import AdPermission
 from ads.serializers import AdListSerializer, AdSerializer
 
 
@@ -21,3 +22,4 @@ class AdDetailAPIView(RetrieveUpdateDestroyAPIView):
 
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
+    permission_classes = [AdPermission]
