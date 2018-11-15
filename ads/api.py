@@ -8,8 +8,10 @@ from ads.serializers import AdListSerializer, AdSerializer
 
 class AdListAPIView(ListCreateAPIView):
 
-    queryset = Ad.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        return Ad.objects.all() if self.request.user.is_authenticated else Ad.objects.filter(status=Ad.PUBLISHED)
 
     def get_serializer_class(self):
         return AdListSerializer if self.request.method == 'GET' else AdSerializer
