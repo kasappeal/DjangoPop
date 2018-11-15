@@ -23,3 +23,6 @@ class AdDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
     permission_classes = [AdPermission]
+
+    def perform_update(self, serializer):
+        serializer.save(owner=self.request.user)
