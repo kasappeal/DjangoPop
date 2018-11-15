@@ -1,6 +1,8 @@
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from ads.models import Ad
@@ -25,3 +27,9 @@ class AdViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    @action(detail=False)
+    def me(self, request):
+        ads = Ad.objects.filter(owner=request.user)
+        serializer = AdListSerializer(ads, many=True)
+        return Response(serializer.data)
